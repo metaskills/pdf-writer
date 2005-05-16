@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+#--
+# PDF::Writer for Ruby.
+#   http://rubyforge.org/projects/ruby-pdf/
+#   Copyright 2003 - 2005 Austin Ziegler.
+#
+#   Licensed under a MIT-style licence. See LICENCE in the main distribution
+#   for full licensing information.
+#
+# $Id$
+#++
+
+  # 1. Try to load the specified library from ./lib.
+  # 2. ... ../lib.
+  # 3. ... relative to the running script (File.dirname($0)/lib).
+  # 4. ... relative ... (File.dirname($0)/../lib).
+  # 5. ... according to provided library paths, one at a time.
+  # 6. ... the unmodified $LOAD_PATH (e.g., site_ruby).
+  # 7. ... with RubyGems.
+  # 8. Fail hard.
+class ClassLoader
+  def initialize(library, options = { :libs => [] })
+    @last     = false
+    @saved    = $LOAD_PATH.dup
+    @library  = library
+    @output   = options[:output]
+    @libs     = %W(#{Dir.pwd}/lib #{Dir.pwd}/../lib
+                   #{File.dirname($0)}/lib #{File.dirname($0)}/../lib) +
+                   (options[:libs] || [])
+
+    $LOAD_PATH.unshift @libs.shift
+
+    __require__
+  end
+
+  def __require__
+    require @library
+  rescue LoadError => ex
+    @output << ex << "\n" << ex.backtrace.join("\n") if @output
+
+    raise ex if @last
+
+    $LOAD_PATH.replace(@saved)
+
+    if @libs.empty?
+      @last = true
+      require 'rubygems'
+    else
+      $LOAD_PATH.unshift @libs.shift
+    end
+    
+    retry
+  end
+end
