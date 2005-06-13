@@ -9,14 +9,16 @@
 #
 # $Id$
 #++
-
 begin
-  load 'loader'
-rescue LoadError
-  load 'bin/loader'
+  require 'pdf/techbook'
+rescue LoadError => le
+  if le.message =~ %r{pdf/techbook$}
+    root = File.dirname(File.dirname(File.expand_path(__FILE__)))
+    $LOAD_PATH.unshift(File.join(root, "lib"))
+    require 'pdf/techbook'
+  else
+    raise
+  end
 end
-ClassLoader.new 'pdf/writer'
-
-require 'pdf/techbook'
 
 PDF::TechBook.run(ARGV)
