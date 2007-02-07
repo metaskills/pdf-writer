@@ -1,0 +1,44 @@
+= PDF::Writer Demo Programs
+This package is a collection of demo programs for PDF::Writer for Ruby version
+1.1.3, intended for users of the RubyGems package, because the demo programs
+are not easily accessible. This package includes:
+
+manual.pwd::      The text version of the PDF manual.
+manual.pdf::      A pregenerated version of the PDF manual.
+chunkybacon.rb::  A simple program to insert three images and two lines of
+                  text
+code.rb::         An example of a custom text formatting tag. Note that this
+                  tag doesn't *quite* work as it should because of an as-yet
+                  unidentified bug in PDF::Writer's tag handling code.
+colornames.rb::   A program to generate colour names known to the color-tools
+                  package.
+demo.rb::         Generates gradients and coloured text.
+gettysburg.rb::   Creates a PDF with the Gettysburg Address wrapped in a
+                  rounded rectangle.
+hello.rb::        A simple "Hello, Ruby" application for PDF::Writer.
+individual-i.rb:: An example of drawing a vector graphic with PDF::Writer,
+                  translated from the Individual I website's EPS version of
+                  the logo.
+pac.rb::          A vector graphics image based on a famous video game.
+pagenumber.rb::   An example for showing PDF::Writer's page numbering.
+qr-language.rb::  Generates a quick reference sheet for the Ruby language.
+                  Based on Ryan Davis's quick reference sheet.
+qr-library.rb::   Generates a quick reference sheet for the Ruby standard
+                  library. Based on Ryan Davis's quick reference sheet.
+
+If PDF::Writer has been installed with RubyGems, then the demos will need to
+be run explicitly referencing RubyGems:
+
+  % ruby -rubygems chunkybacon.rb
+
+#--
+# PDF::Writer for Ruby.
+#   http://rubyforge.org/projects/ruby-pdf/
+#   Copyright 2003 - 2005 Austin Ziegler.
+#
+#   Licensed under a MIT-style licence. See LICENCE in the main distribution
+#   for full licensing information.
+#
+# $Id$
+#++
+# vim: sts=2 sw=2 ts=4 et ai tw=77
