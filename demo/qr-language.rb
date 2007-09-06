@@ -42,7 +42,7 @@ usage: #{File.basename($0)} [paper-size]
 end
 
 PDF::QuickRef.make(paper, 3) do
-  pdf.compressed    = true
+# pdf.compressed    = true
   pdf.info.author   = "Ryan Davis"
   pdf.info.title    = "Ruby Language Quick Reference"
   pdf.info.subject  = "The Ruby Programming Language"
@@ -167,11 +167,11 @@ variables, and operators.
   range = RangeThingy.new(lower_bound) .. RangeThingy.new(upper_bound)
   EOS
 
-  h2      "Regexen"
+  h2      "Regular Expressions"
   pre     <<-'EOS'
     /normal regex/[xim]
     %r|alternate form|[xim]
-    Regex.new(pattern, options)
+    Regexp.new(pattern, options)
   EOS
   pairs   <<-'EOS'
 .	any character except newline
