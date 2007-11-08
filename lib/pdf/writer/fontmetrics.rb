@@ -82,6 +82,7 @@ class PDF::Writer::FontMetrics
           line.chomp!
           line.strip!
           key, *values = line.split
+          next if key.nil?
           op = "#{key.downcase}=".to_sym
 
             # I probably need to deal with MetricsSet. The default value is
