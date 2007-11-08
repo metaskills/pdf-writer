@@ -1,6 +1,6 @@
 #
 # setup.rb
-##
+#
 # Copyright (c) 2000-2004 Minero Aoki
 #
 # This program is free software.
