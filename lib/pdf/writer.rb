@@ -2783,5 +2783,11 @@ class PDF::Writer
     # Save the PDF as a file to disk.
   def save_as(name)
     File.open(name, "wb") { |f| f.write self.render }
+  end 
+
+  # memory improvement for transaction-simple  
+  def _post_transaction_rewind
+    @objects.each { |e| e.instance_variable_set(:@parent,self) }
   end
+          
 end
