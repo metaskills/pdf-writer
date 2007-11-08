@@ -20,7 +20,7 @@ require 'ostruct'
   # The scale of responses is the vertical scale; the average data points
   # and standard deviation values are the horizontal scale.
 class PDF::Charts::StdDev
-  VERSION = '1.1.3'
+  VERSION = '1.1.4'
 
     # A data element.
   DataPoint = Struct.new(:label, :average, :stddev)

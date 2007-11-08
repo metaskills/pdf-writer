@@ -51,7 +51,7 @@ require 'pdf/simpletable'
   #  qr.lines "Text to put after the header."
   #  qr.save_as "MyQuickRef.pdf"
 class PDF::QuickRef
-  VERSION = '1.1.3'
+  VERSION = '1.1.4'
 
     # Create the quick reference document. +paper+ is passed unchanged to
     # the PDF::Writer.new; the page is always created landscape. Margins

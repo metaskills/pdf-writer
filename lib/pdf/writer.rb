@@ -19,7 +19,7 @@ require 'color'
 module PDF
   class Writer
       # The version of PDF::Writer.
-    VERSION = '1.1.3'
+    VERSION = '1.1.4'
 
       # Escape the text so that it's safe for insertion into the PDF
       # document.
