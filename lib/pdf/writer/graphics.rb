@@ -518,7 +518,7 @@ module PDF::Writer::Graphics
   end
 
     # Add an image from a file to the current page at position <tt>(x,
-    # y)</tt> (the upper left-hand corner of the image). The image will be
+    # y)</tt> (the lower left-hand corner of the image). The image will be
     # scaled to +width+ by +height+ units. The image may be a PNG or JPEG
     # image.
     #
@@ -550,7 +550,7 @@ module PDF::Writer::Graphics
   end
 
     # Add an image from a loaded image (JPEG or PNG) resource at position
-    # <tt>(x, y)</tt> (the upper left-hand corner of the image) and scaled
+    # <tt>(x, y)</tt> (the lower left-hand corner of the image) and scaled
     # to +width+ by +height+ units. If provided, +image_info+ is a
     # PDF::Writer::Graphics::ImageInfo object.
     #
