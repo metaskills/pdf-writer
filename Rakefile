@@ -50,9 +50,7 @@ task :test do |t|
   runner = Test::Unit::UI::Console::TestRunner
 
   $LOAD_PATH.unshift('tests')
-  $stderr.puts "Checking for test cases:" if t.verbose
   Dir['tests/tc_*.rb'].each do |testcase|
-    $stderr.puts "\t#{testcase}" if t.verbose
     load testcase
   end
 
@@ -63,16 +61,18 @@ task :test do |t|
   end
 
   runner.run(suite)
-end
+end                                      
 
+
+mkdir_p "pkg"
 spec = eval(File.read("pdf-writer.gemspec"))
-spec.version = PDF::Writer::VERSION
+spec.version = "1.1.4"
 desc "Build the RubyGem for PDF::Writer"
 task :gem => [ :test ]
 Rake::GemPackageTask.new(spec) do |g|
   g.need_tar    = false
   g.need_zip    = false
-  g.package_dir = ".."
+  g.package_dir = "pkg"
 end
 
 desc "Look for TODO and FIXME tags in the code"

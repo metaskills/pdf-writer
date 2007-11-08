@@ -11,7 +11,7 @@
 
 spec = Gem::Specification.new do |s|
   s.name              = 'pdf-writer'
-  s.version           = '1.1.3'
+  s.version           = '1.1.4'
   s.summary           = %q(A pure Ruby PDF document creation library.)
   s.platform          = Gem::Platform::RUBY
 
@@ -43,6 +43,6 @@ spec = Gem::Specification.new do |s|
   end
   s.description = description[1..-1].join(" ")
 
-  s.add_dependency('color-tools', '~> 1.3')
+  s.add_dependency('color', '>= 1.4.0')
   s.add_dependency('transaction-simple', '~> 1.3')
 end
