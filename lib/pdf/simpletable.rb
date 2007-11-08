@@ -769,29 +769,29 @@ class PDF::SimpleTable
 
     # Find the maximum widths of the text within each column. Default to
     # zero.
-  def __find_table_max_width__(pdf)
-    max_width = PDF::Writer::OHash.new(0)
+  def __find_table_max_width__(pdf)     
+    max_width = PDF::Writer::OHash.new(-1)
 
-      # Find the maximum cell widths based on the data and the headings.
-      # Passing through the data multiple times is unavoidable as we must do
-      # some analysis first.
+    # Find the maximum cell widths based on the data and the headings.
+    # Passing through the data multiple times is unavoidable as we must
+    # do some analysis first.
     @data.each do |row|
-      @cols.each do |name, column|
-        w = pdf.text_width(row[name].to_s, @font_size)
-        w *= WIDTH_FACTOR
+     @cols.each do |name, column|
+       w = pdf.text_width(row[name].to_s, @font_size)
+       w *= PDF::SimpleTable::WIDTH_FACTOR
 
-        max_width[name] = w if w > max_width[name]
-      end
+       max_width[name] = w if w > max_width[name]
+     end
     end
 
     @cols.each do |name, column|
-      title = column.heading.title if column.heading
-      title ||= column.name
-      w = pdf.text_width(title, @heading_font_size)
-      w *= WIDTH_FACTOR
-      max_width[name] = w if w > max_width[name]
+     title = column.heading.title if column.heading
+     title ||= column.name
+     w = pdf.text_width(title, @heading_font_size)
+     w *= PDF::SimpleTable::WIDTH_FACTOR  
+     max_width[name] = w if w > max_width[name]
     end
-    max_width
+    max_width  
   end
   private :__find_table_max_width__
 
