@@ -1,4 +1,5 @@
 #! /usr/bin/env rake
+#
 #--
 # PDF::Writer for Ruby.
 #   http://rubyforge.org/projects/ruby-pdf/
