@@ -11,7 +11,7 @@
 
 spec = Gem::Specification.new do |s|
   s.name              = 'pdf-writer'
-  s.version           = '1.1.4'
+  s.version           = '1.2.0'
   s.summary           = %q(A pure Ruby PDF document creation library.)
   s.platform          = Gem::Platform::RUBY
 

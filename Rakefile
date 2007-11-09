@@ -67,7 +67,6 @@ end
 
 mkdir_p "pkg"
 spec = eval(File.read("pdf-writer.gemspec"))
-spec.version = "1.1.4"
 desc "Build the RubyGem for PDF::Writer"
 task :gem => [ :test ]
 Rake::GemPackageTask.new(spec) do |g|

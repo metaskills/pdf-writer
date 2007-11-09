@@ -14,7 +14,7 @@ require 'transaction/simple/group'
   # This class will create tables with a relatively simple API and internal
   # implementation.
 class PDF::SimpleTable
-  VERSION = '1.1.4'
+  VERSION = '1.2.0'
 
   include Transaction::Simple
 
