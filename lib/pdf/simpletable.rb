@@ -555,7 +555,7 @@ class PDF::SimpleTable
               mx = 0
 
               if @show_headings
-                hOID = __open_new_object__(pdf) if @shade_headings
+                old_y = y
 
                 pdf.fill_color @heading_color
                 _height, y = __table_column_headings__(pdf, pos, max_width,
@@ -566,12 +566,13 @@ class PDF::SimpleTable
                 y1 = y
 
                 if @shade_headings
-                  pdf.close_object
                   pdf.fill_color! @shade_heading_color
                   pdf.rectangle(x0 - @gap / 2, y, x1 - x0, _height).fill
-                  pdf.reopen_object(hOID)
-                  pdf.close_object
-                  pdf.restore_state
+                  pdf.fill_color @heading_color
+                  __table_column_headings__(pdf, pos, max_width, height,
+                                            descender, @row_gap,
+                                            @heading_font_size, old_y)
+                  pdf.fill_color @text_color
                 end
 
                 dm = pdf.absolute_left_margin - base_left_margin
