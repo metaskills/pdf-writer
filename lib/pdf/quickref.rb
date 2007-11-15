@@ -62,7 +62,7 @@ class PDF::QuickRef
     #
     # After the columns are started, lines will be drawn between column
     # positions.
-  def initialize(paper = "LETTER", columns = 3)
+  def initialize(paper = "LETTER", columns = 3, column_separators_visible = true)
     @pdf  = PDF::Writer.new(:paper => paper, :orientation => :landscape)
     @pdf.margins_pt 18
     @pdf.y = @pdf.absolute_top_margin
@@ -107,20 +107,22 @@ class PDF::QuickRef
     @ptab.maximum_width = @pdf.column_width - 10
     @ltab.maximum_width = @pdf.column_width - 10
 
+    if column_separators_visible
       # Put lines between the columns.
-    all = @pdf.open_object
-    @pdf.save_state
-    @pdf.stroke_color! Color::RGB::Black
-    @pdf.stroke_style  PDF::Writer::StrokeStyle::DEFAULT
-    (1 .. (columns - 1)).each do |ii|
-      x = @pdf.left_margin + (@pdf.column_width * ii)
-      x += (@pdf.column_gutter * (ii - 0.5))
-      @pdf.line(x, @pdf.page_height - @pdf.top_margin, x, @pdf.bottom_margin)
-      @pdf.stroke
+      all = @pdf.open_object
+      @pdf.save_state
+      @pdf.stroke_color! Color::RGB::Black
+      @pdf.stroke_style  PDF::Writer::StrokeStyle::DEFAULT
+      (1 .. (columns - 1)).each do |ii|
+        x = @pdf.left_margin + (@pdf.column_width * ii)
+        x += (@pdf.column_gutter * (ii - 0.5))
+        @pdf.line(x, @pdf.page_height - @pdf.top_margin, x, @pdf.bottom_margin)
+        @pdf.stroke
+      end
+      @pdf.restore_state
+      @pdf.close_object
+      @pdf.add_object(all, :all_pages)
     end
-    @pdf.restore_state
-    @pdf.close_object
-    @pdf.add_object(all, :all_pages)
   end
 
     # Access to the raw PDF canvas for normal PDF::Writer configuration.
