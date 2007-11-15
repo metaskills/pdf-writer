@@ -697,38 +697,6 @@ class PDF::Writer
     :add    => 32
   }
 
-  # Encrypts the document. This will set the user and owner passwords that
-  # will be used to access the document and set the permissions the user
-  # has with the document. The passwords are limited to 32 characters.
-  #
-  # The permissions provided are an array of symbols, allowing identified
-  # users to perform particular actions:
-  # <tt>:print</tt>::   Print.
-  # <tt>:modify</tt>::  Modify text or objects.
-  # <tt>:copy</tt>::    Copy text or objects.
-  # <tt>:add</tt>::     Add text or objects.
-  def encrypt(user_pass = nil, owner_pass = nil, permissions = [])
-    perms = ["11000000"].pack("B8")
-
-    permissions.each do |perm|
-      perms += ENCRYPT_OPTIONS[perm] if ENCRYPT_OPTIONS[perm]
-    end
-
-    @arc4 ||= PDF::ARC4.new
-    owner_pass ||= user_pass
-
-    options = {
-      :owner_pass   => owner_pass,
-      :user_pass    => user_pass,
-      :permissions  => perms,
-    }
-    @encryption = PDF::Writer::Object::Encryption.new(self, options)
-  end
-
-  def encrypted?
-    not @encryption.nil?
-  end
-
     # should be used for internal checks, not implemented as yet
   def check_all_here
   end
