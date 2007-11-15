@@ -14,9 +14,8 @@ $LOAD_PATH.unshift('lib')
 require 'meta_project'
 require 'rake/gempackagetask'
 require 'rake/contrib/xforge'
-require 'rake/clean'
-
-require 'gmailer'
+require 'rake/clean'    
+require 'rake/testtask'
 
 require 'pdf/writer'
 require 'pdf/techbook'
@@ -43,27 +42,13 @@ if ENV['RELEASE_DATE']
 else
   ReleaseDate = nil
 end
+        
 
-task :test do |t|
-  require 'test/unit/testsuite'
-  require 'test/unit/ui/console/testrunner'
-
-  runner = Test::Unit::UI::Console::TestRunner
-
-  $LOAD_PATH.unshift('tests')
-  Dir['tests/tc_*.rb'].each do |testcase|
-    load testcase
-  end
-
-  suite = Test::Unit::TestSuite.new("PDF::Writer")
-
-  ObjectSpace.each_object(Class) do |testcase|
-    suite << testcase.suite if testcase < Test::Unit::TestCase
-  end
-
-  runner.run(suite)
-end                                      
-
+Rake::TestTask.new do |test|
+  test.libs << "test"
+  test.test_files = Dir[ "test/test_*.rb" ]
+  test.verbose = true
+end
 
 mkdir_p "pkg"
 spec = eval(File.read("pdf-writer.gemspec"))

@@ -196,13 +196,13 @@ class PDF::Writer::Graphics::ImageInfo
     dim = @data.read_o(16)
 
     # Get the "size" of the image from the next four bytes.
-    size = dim.unpack("V")
+    size = dim.unpack("V").first # <- UNPACK RETURNS ARRAY, SO GET FIRST ELEMENT
 
     if size == 12
-      @width, @height, @bits = dim.unpack("x4vvx3C")
+     @width, @height, @bits = dim.unpack("x4vvx3C")
     elsif size > 12 and (size <= 64 or size == 108)
-      @width, @height, @bits = dim.unpack("x4VVv")
-    end
+     @width, @height, @bits = dim.unpack("x4VVv")
+    end  
   end
   private :measure_BMP
 
