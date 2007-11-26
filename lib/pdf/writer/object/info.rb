@@ -32,7 +32,6 @@ class PDF::Writer::Object::Info < PDF::Writer::Object
   end
 
   def to_s
-    @parent.arc4.prepare(self) if @parent.encrypted?
     res = "\n#{@oid} 0 obj\n<<\n"
     Info.each do |i|
       v = __send__("#{i.downcase}".intern)
@@ -43,11 +42,8 @@ class PDF::Writer::Object::Info < PDF::Writer::Object
         v = v.utc
         v = s % [ v.year, v.month, v.day, v.hour, v.min ]
       end
-      if @parent.encrypted?
-        res << PDF::Writer.escape(@parent.arc4.encrypt(v))
-      else
-        res << PDF::Writer.escape(v)
-      end
+
+      res << PDF::Writer.escape(v)
       res << ")\n"
     end
     res << ">>\nendobj"

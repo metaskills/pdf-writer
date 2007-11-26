@@ -298,10 +298,6 @@ class PDF::Writer::External::Image < PDF::Writer::External
     tmp = @data.dup
     res = "\n#{@oid} 0 obj\n<<"
     @info.each { |k, v| res << "\n/#{k} #{v}"}
-    if (@parent.encrypted?)
-      @parent.arc4.prepare(self)
-      tmp = @parent.arc4.encrypt(tmp)
-    end
     res << "\n/Length #{tmp.size} >>\nstream\n#{tmp}\nendstream\nendobj\n"
     res
   end

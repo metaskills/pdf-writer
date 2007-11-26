@@ -56,10 +56,6 @@ class PDF::Writer::Object::Contents < PDF::Writer::Object
         res << " /Filter /FlateDecode"
         tmp = Zlib::Deflate.deflate(tmp)
       end
-      if (@parent.encrypted?)
-        @parent.arc4.prepare(self)
-        tmp = @parent.arc4.encrypt(tmp)
-      end
       @info.each { |k, v| res << "\n/#{k} #{v}" }
       res << "\n/Length #{tmp.size} >>\nstream\n#{tmp}\nendstream"
     end
