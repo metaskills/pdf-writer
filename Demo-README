@@ -20,7 +20,6 @@ individual-i.rb:: An example of drawing a vector graphic with PDF::Writer,
                   translated from the Individual I website's EPS version of
                   the logo.
 pac.rb::          A vector graphics image based on a famous video game.
-pagenumber.rb::   An example for showing PDF::Writer's page numbering.
 qr-language.rb::  Generates a quick reference sheet for the Ruby language.
                   Based on Ryan Davis's quick reference sheet.
 qr-library.rb::   Generates a quick reference sheet for the Ruby standard
