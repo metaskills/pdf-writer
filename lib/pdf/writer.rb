@@ -370,9 +370,8 @@ class PDF::Writer
       # Initialize the default font families.
     init_font_families
 
-      # Items formerly in EZWriter
     @font_size = 10
-    @pageset = []
+    @pageset = [@pages.first_page]
 
     if paper.kind_of?(Array)
       if paper.size == 4
@@ -400,7 +399,6 @@ class PDF::Writer
     @y = absolute_top_margin
       # Get the ID of the page that was created during the instantiation
       # process.
-    @pageset[1] = @pages.first_page
 
     fill_color!   Color::RGB::Black
     stroke_color! Color::RGB::Black
@@ -2154,12 +2152,14 @@ class PDF::Writer
     # number of pages in the page numbering scheme. The default +pattern+ is
     # "<PAGENUM> of <TOTALPAGENUM>".
     #
-    # If +starting+ is non-nil, this is the first page number. The number of
-    # total pages will be adjusted to account for this.
     #
     # Each time page numbers are started, a new page number scheme will be
     # started. The scheme number will be returned.
-  def start_page_numbering(x, y, size, pos = nil, pattern = nil, starting = nil)
+  def start_page_numbering(x, y, size, pos = nil, pattern = nil)  
+    if starting
+      raise "We have currently disabled starting values for start_page_numbering" +
+            " because it is buggy." 
+    end   
     pos     ||= :left
     pattern ||= "<PAGENUM> of <TOTALPAGENUM>"
     starting  ||= 1
@@ -2247,7 +2247,7 @@ class PDF::Writer
   def add_page_numbers
       # This will go through the @page_numbering array and add the page
       # numbers are required.
-    if @page_numbering
+    if @page_numbering                           
       page_count  = @pageset.size
       pn_tmp      = @page_numbering.dup
 
@@ -2256,10 +2256,10 @@ class PDF::Writer
           # First, find the total pages for this schemes.
         page = page_number_search(:stop_total, scheme)
 
-        if page
+        if page                                       
           total_pages = page
         else
-          page = page_number_search(:stop_total_next, scheme)
+          page = page_number_search(:stop_total_next, scheme)        
           if page
             total_pages = page
           else
@@ -2268,7 +2268,7 @@ class PDF::Writer
         end
 
         status  = nil
-        delta   = pattern = pos = x = y = size = nil
+        pattern = pos = x = y = size = nil
 
         @pageset.each_with_index do |page, index|
           next if status.nil? and scheme[index].nil?
@@ -2277,11 +2277,6 @@ class PDF::Writer
           if info
             if info[:start]
               status = true
-            if info[:starting]
-                delta = info[:starting] - index
-            else
-                delta = index
-              end
 
               pattern = info[:pattern]
               pos     = info[:pos]
@@ -2301,8 +2296,8 @@ class PDF::Writer
 
           if status
               # Add the page numbering to this page
-            num   = index + delta.to_i
-            total = total_pages + num - index
+            num   = index + 1
+            total = total_pages
             patt  = pattern.gsub(/<PAGENUM>/, num.to_s).gsub(/<TOTALPAGENUM>/, total.to_s)
             reopen_object(page.contents.first)
 
