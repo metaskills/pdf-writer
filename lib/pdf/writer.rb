@@ -2155,7 +2155,7 @@ class PDF::Writer
     #
     # Each time page numbers are started, a new page number scheme will be
     # started. The scheme number will be returned.
-  def start_page_numbering(x, y, size, pos = nil, pattern = nil)  
+  def start_page_numbering(x, y, size, pos = nil, pattern = nil, starting = nil)  
     if starting
       raise "We have currently disabled starting values for start_page_numbering" +
             " because it is buggy." 
