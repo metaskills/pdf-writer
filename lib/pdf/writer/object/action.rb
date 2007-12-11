@@ -22,17 +22,12 @@ class PDF::Writer::Object::Action < PDF::Writer::Object
   attr_accessor :label
 
   def to_s
-    @parent.arc4.prepare(self) if @parent.encrypted?
     res = "\n#{@oid} 0 obj\n<< /Type /Action"
     if @type == :ilink
       res << "\n/S /GoTo\n/D #{@parent.destinations[@label].oid} 0 R"
     elsif @type == 'URI'
       res << "\n/S /URI\n/URI ("
-      if @parent.encrypted?
-        res << PDF::Writer.escape(@parent.arc4.encrypt(@label))
-      else
-        res << PDF::Writer.escape(@label)
-      end
+      res << PDF::Writer.escape(@parent.arc4.encrypt(@label))
       res << ")\n"
     end
     res << ">>\nendobj"
