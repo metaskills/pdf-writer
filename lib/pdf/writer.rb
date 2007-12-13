@@ -2155,11 +2155,7 @@ class PDF::Writer
     #
     # Each time page numbers are started, a new page number scheme will be
     # started. The scheme number will be returned.
-  def start_page_numbering(x, y, size, pos = nil, pattern = nil, starting = nil)  
-    if starting
-      raise "We have currently disabled starting values for start_page_numbering" +
-            " because it is buggy." 
-    end   
+  def start_page_numbering(x, y, size, pos = nil, pattern = nil, starting = nil)   
     pos     ||= :left
     pattern ||= "<PAGENUM> of <TOTALPAGENUM>"
     starting  ||= 1
@@ -2268,6 +2264,7 @@ class PDF::Writer
         end
 
         status  = nil
+        delta   = pattern = pos = x = y = size = nil 
         pattern = pos = x = y = size = nil
 
         @pageset.each_with_index do |page, index|
@@ -2277,6 +2274,11 @@ class PDF::Writer
           if info
             if info[:start]
               status = true
+              if info[:starting] 
+                delta = info[:starting] - index 
+              else 
+                delta = index 
+              end  
 
               pattern = info[:pattern]
               pos     = info[:pos]
@@ -2296,8 +2298,8 @@ class PDF::Writer
 
           if status
               # Add the page numbering to this page
-            num   = index + 1
-            total = total_pages
+            num   = index + delta.to_i 
+            total = total_pages + num - index
             patt  = pattern.gsub(/<PAGENUM>/, num.to_s).gsub(/<TOTALPAGENUM>/, total.to_s)
             reopen_object(page.contents.first)
 

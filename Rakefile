@@ -258,5 +258,4 @@ desc "Release the latest version."
 task :release => [ :verify_rubyforge, :verify_gmail, :release_files,
   :publish_news, :email_announcement, :docs ]
 
-desc "Build everything."
-task :default => [ :tar, :gem, :demotar, :docs ]
+task :default => [ :test ]
