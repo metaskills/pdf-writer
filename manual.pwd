@@ -2889,7 +2889,7 @@ the binary contents of a PNG or JPEG file <i>or</i> it must be a PDF image
 that has previously been inserted by one of the image insertion methods
 (including this one).
 
-The loaded image will be placed with its <i>upper left-hand corner</i> at
+The loaded image will be placed with its <i>lower left-hand corner</i> at
 <b>(x, y)</b> on the current page. The size of the image will be determined
 by the <b>width</b> and <b>height</b> parameters. If neither width nor height
 are provided, the image will be inserted at its “natural” size.
