@@ -17,7 +17,7 @@ Please read the file LICENCE for licensing restrictions on this library, as
 well as important patent considerations.
 
 == Requirements
-PDF::Writer requires Ruby 1.8.2 or better, color-tools 1.3.0 or better, and
+PDF::Writer requires Ruby 1.8.2 or better, Color 1.4.0 or better, and
 Transaction::Simple 1.3.0 or better.
 
 #--
