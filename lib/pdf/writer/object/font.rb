@@ -42,9 +42,13 @@ class PDF::Writer::Object::Font < PDF::Writer::Object
     # Valid values: WinAnsiEncoding, MacRomanEncoding, MacExpertEncoding,
     # none, +nil+, or an instance of PDF::Writer::Object::FontEncoding.
   attr_reader :encoding
-  attr_reader :basefont
+
   def basefont #:nodoc:
     @name
+  end
+
+  def basefont=(val) #:nodoc:
+    @name = val
   end
 
   Details.each do |d|

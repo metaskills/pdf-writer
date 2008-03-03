@@ -29,6 +29,6 @@ class PDF::Writer::Object::FontDescriptor < PDF::Writer::Object
       res << "/#{k} [#{v.join(' ')}]\n" if k == "FontBBox"
       res << "/#{k} /#{v}\n" if k == "FontName"
     end
-    res << "\n>>\nendobj"
+    res << ">>\nendobj"
   end
 end

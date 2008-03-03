@@ -800,7 +800,7 @@ class PDF::Writer
         break if fontfile
       end
     end
-
+    
     if font =~ /afm/o and fontfile
         # Find the array of font widths, and put that into an object.
       first_char  = -1
@@ -823,9 +823,11 @@ class PDF::Writer
         encoding_diff.each do |cnum, cname|
           (cnum - last_char).times { widths << 0 } if cnum > last_char
           last_char = cnum
-          widths[cnum - firstchar] = fonts.c[cname]['WX'] if metrics.c[cname]
+          widths[cnum - first_char] = metrics.c[cname]['WX'] if metrics.c[cname]
         end
       end
+
+      raise RuntimeError, 'Font metrics file (.afm) invalid - no charcters described' if first_char == -1 and last_char == 0
 
       widthid = PDF::Writer::Object::Contents.new(self, :raw)
       widthid << "["
@@ -841,38 +843,7 @@ class PDF::Writer
         # Load the pfb file, and put that into an object too. Note that PDF
         # supports only binary format Type1 font files and TrueType font
         # files. There is a simple utility to convert Type1 from pfa to pfb.
-      data = File.open(fbfile, "rb") { |ff| ff.read }
-
-        # Check to see if the font licence allows embedding.
-      if fbtype =~ /\.ttf$/o
-        offset  = 4
-        tables  = data[offset, 2].unpack('n')[0]
-        offset += 8
-
-        found   = false
-        tables.times do
-          if data[offset, 4] == 'OS/2'
-            found = true
-            break
-          end
-          offset += 4 + 12
-        end
-
-        if found
-          offset += 4
-          newoff  = data[offset, 4].unpack('N')[0]
-          offset  = newoff + 8
-          licence = data[offset, 2].unpack('n')[0]
-
-          rl  = ((licence & 0x02) != 0)
-          pp  = ((licence & 0x04) != 0)
-          ee  = ((licence & 0x08) != 0)
-
-          if rl and pp and ee
-            warn PDF::Writer::Lang[:ttf_licence_no_embedding] % name
-          end
-        end
-      end
+      data = File.open(fontfile, "rb") { |ff| ff.read }
 
         # Create the font descriptor.
       fdsc = PDF::Writer::Object::FontDescriptor.new(self)
@@ -938,13 +909,13 @@ class PDF::Writer
       end
 
         # Determine the cruicial lengths within this file
-      if fbtype =~ /\.pfb$/o
+      if fontfile =~ /\.pfb$/o
         fdopt['FontFile'] = pfbc.oid
         i1 = data.index('eexec') + 6
         i2 = data.index('00000000')  - i1
         i3 = data.size - i2 - i1
         pfbc.add('Length1' => i1, 'Length2' => i2, 'Length3' => i3)
-      elsif fbtype =~ /\.ttf$/o
+      elsif fontfile =~ /\.ttf$/o
         fdopt['FontFile2'] = pfbc.oid
         pfbc.add('Length1' => data.size)
       end
@@ -961,7 +932,7 @@ class PDF::Writer
         'LastChar'        => last_char,
         'FontDescriptor'  => fdsc.oid
       }
-      tmp['SubType'] = 'TrueType' if fbtype == "ttf"
+      tmp['SubType'] = 'TrueType' if fontfile =~ /\.ttf/
 
       tmp.each { |kk, vv| wfo.__send__("#{kk.downcase}=".intern, vv) }
     end
