@@ -2211,7 +2211,7 @@ class PDF::Writer
   end
   private :page_number_search
 
-  def add_page_numbers
+  def add_page_numbers            
       # This will go through the @page_numbering array and add the page
       # numbers are required.
     if @page_numbering                           
@@ -2223,14 +2223,14 @@ class PDF::Writer
           # First, find the total pages for this schemes.
         page = page_number_search(:stop_total, scheme)
 
-        if page                                       
+        if page                             
           total_pages = page
         else
           page = page_number_search(:stop_total_next, scheme)        
-          if page
+          if page  
             total_pages = page
-          else
-            total_pages = page_count
+          else                     
+            total_pages = page_count - 1
           end
         end
 
