@@ -23,6 +23,8 @@ Gem::Specification.new do |s|
     "lib/pdf/charts",
     "lib/pdf/charts/stddev.rb",
     "lib/pdf/charts.rb",
+    "lib/pdf/core_ext",
+    "lib/pdf/core_ext/mutex.rb",
     "lib/pdf/math.rb",
     "lib/pdf/quickref.rb",
     "lib/pdf/simpletable.rb",
