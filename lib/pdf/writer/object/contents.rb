@@ -13,7 +13,8 @@ class PDF::Writer::Object::Contents < PDF::Writer::Object
   def initialize(parent, page = nil)
     super(parent)
 
-    @data = ""
+    @data = RUBY_VERSION < '1.9' ? "" : "".force_encoding("BINARY")
+    
     @info = {}
     @raw = false
     @on_page = nil
@@ -38,6 +39,10 @@ class PDF::Writer::Object::Contents < PDF::Writer::Object
 
   def <<(v)
     raise TypeError unless v.kind_of?(PDF::Writer::Object) or v.kind_of?(String)
+    if RUBY_VERSION >= '1.9'
+      @data.force_encoding 'BINARY'
+      v.force_encoding 'BINARY'
+    end
     @data << v
   end
 

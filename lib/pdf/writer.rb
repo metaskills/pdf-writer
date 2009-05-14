@@ -709,7 +709,7 @@ class PDF::Writer
 
     xref = []
 
-    content = "%PDF-#{@version}\n%âãÏÓ\n"
+    content = "%PDF-#{@version}\n%\303\242\303\243\303\217\303\223\n"
     pos = content.size
 
     objects.each do |oo|
@@ -1466,7 +1466,7 @@ class PDF::Writer
   end
 
   def char_width(font, char)
-    char = char[0] unless @fonts[font].c[char]
+    char = char.bytes.to_a.first unless @fonts[font].c[char]
 
     if @fonts[font].differences and @fonts[font].c[char].nil?
       name = @fonts[font].differences[char] || 'M'
@@ -1563,7 +1563,7 @@ class PDF::Writer
 
     max   = 0
 
-    text.to_s.each do |line|
+    text.to_s.each_line do |line|
       width = text_line_width(line, size)
       max = width if width > max
     end
@@ -2372,7 +2372,7 @@ class PDF::Writer
       height = font_height(size)
     end
 
-    text.each do |line|
+    text.each_line do |line|
       start = true
       loop do # while not line.empty? or start
         break if (line.nil? or line.empty?) and not start

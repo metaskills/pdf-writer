@@ -534,7 +534,7 @@ class PDF::TechBook < PDF::Writer
 
     __build_xref_table(document)
 
-    document.each do |line|
+    document.each_line do |line|
     begin
       progress.inc if progress
       @techbook_line__ += 1
@@ -854,7 +854,7 @@ class PDF::TechBook < PDF::Writer
           # class program, then regenerate.
         if (_tm_doc < _tm_cch) and (_tm_prg < _tm_cch)
           $stderr.puts PDF::Writer::Lang[:techbook_using_cached_doc] % File.basename(files[:cache])
-          pdf = File.open(files[:cache], "rb") { |cf| Marshal.load(cf.read) }
+          pdf = File.open(files[:cache], "rb:binary") { |cf| Marshal.load(cf.read) }
           pdf.save_as(files[:pdf])
           File.open(files[:pdf], "wb") { |pf| pf.write pdf.render }
           exit(0)

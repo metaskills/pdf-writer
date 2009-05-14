@@ -78,7 +78,7 @@ class PDF::Writer::FontMetrics
         font = PDF::Writer::FontMetrics.new
 
           # An AFM file contains key names followed by valuees.
-        file.each do |line|
+        file.each_line do |line|
           line.chomp!
           line.strip!
           key, *values = line.split

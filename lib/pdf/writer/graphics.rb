@@ -543,7 +543,7 @@ module PDF::Writer::Graphics
     if image.respond_to?(:read)
       data = image.read
     else
-      open(image, 'rb') { |ff| data = ff.read }
+      open(image,'rb:binary') { |ff| data = ff.read }
     end
 
     add_image(data, x, y, width, height, nil, link)
