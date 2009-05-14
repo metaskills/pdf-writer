@@ -1,5 +1,8 @@
 = PDF::Writer Change Log
 
+== PDF::Writer 1.2.1: May 13, 2009
+* Ruby 1.9 compatibility.
+
 == PDF::Writer 1.1.3: September 9, 2005
 * Fixed #2356 submitted by Matthew Thill. Margins set by the various margins
   methods would behave incorrectly.
