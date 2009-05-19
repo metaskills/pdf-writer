@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = "pdf-writer"
-  s.version  = "1.2.2"
-  s.date     = "2009-05-13"
+  s.version  = "1.2.3"
+  s.date     = "2009-05-19"
   s.summary  = "A pure Ruby PDF document creation library."
   s.email    = "ken@metaskills.net"
   s.homepage = "http://github.com/metaskills/pdf-writer/"
