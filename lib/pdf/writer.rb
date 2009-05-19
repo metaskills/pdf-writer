@@ -1467,7 +1467,11 @@ class PDF::Writer
   end
 
   def char_width(font, char)
-    char = char.bytes.to_a.first unless @fonts[font].c[char]
+    if RUBY_VERSION >= '1.9'
+      char = char.bytes.to_a.first unless @fonts[font].c[char]
+    else
+      char = char[0] unless @fonts[font].c[char]
+    end
 
     if @fonts[font].differences and @fonts[font].c[char].nil?
       name = @fonts[font].differences[char] || 'M'
