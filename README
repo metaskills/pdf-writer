@@ -12,6 +12,14 @@ This software is based on Adobe's PDF Reference, Fifth Edition, version 1.6.
 This and earlier editions are available from Adobe's PDF developer
 website[http://partners.adobe.com/public/developer/pdf/index_reference.html].
 
+== Ruby 2.0 Compatibility
+This gem version has been updated to work with Ruby 2.0.  This is a maintenance
+effort only to support moving existing projects from Ruby 1.8 to 2.0.  New project
+development should use Prawn[1] over PDF-Writer as it is actively maintained and 
+is also the successor/rewrite of this library.
+
+[1] http://prawn.majesticseacreature.com/
+
 == LICENCE NOTES
 Please read the file LICENCE for licensing restrictions on this library, as
 well as important patent considerations.
