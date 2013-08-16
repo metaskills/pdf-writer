@@ -1,3 +1,4 @@
+#encoding: ASCII-8BIT
 #--
 # PDF::Writer for Ruby.
 #   http://rubyforge.org/projects/ruby-pdf/
@@ -9,7 +10,7 @@
 #   This file is also licensed under standard Ruby licensing provisions: the
 #   Ruby licence and the GNU General Public Licence, version 2 or later.
 #
-# $Id$
+# $Id: imageinfo.rb 173 2007-11-15 17:58:43Z sandal $
 #++
 require 'pdf/writer/oreader'
 
@@ -98,8 +99,10 @@ class PDF::Writer::Graphics::ImageInfo
   attr_reader :channels
 
   attr_reader :info
-
+  attr_reader :signature
+  
   def discover_format
+    @signature = @top[0,12]
     if    @top        =~ %r{^GIF8[79]a}
       Formats::GIF
     elsif @top[0, 3]  == "\xff\xd8\xff"
@@ -127,6 +130,7 @@ class PDF::Writer::Graphics::ImageInfo
     elsif @top[0] == 10
       Formats::PCX
     else
+      # raise [@top[0,8], @top[0,8]  == "\x89PNG\x0d\x0a\x1a\x0a", @top[0,8] == "\x89PNG\r\n\x1A\n", @top[0,8].encoding, "\x89PNG\x0d\x0a\x1a\x0a".encoding].inspect
       Formats::OTHER  # might be WBMP
     end
   end

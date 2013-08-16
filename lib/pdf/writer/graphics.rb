@@ -6,7 +6,7 @@
 #   Licensed under a MIT-style licence. See LICENCE in the main distribution
 #   for full licensing information.
 #
-# $Id$
+# $Id: graphics.rb 166 2007-11-08 18:22:05Z sandal $
 #++
   # Points for use in the drawing of polygons.
 class PDF::Writer::PolygonPoint
@@ -543,11 +543,7 @@ module PDF::Writer::Graphics
     if image.respond_to?(:read)
       data = image.read
     else
-      if RUBY_VERSION >= '1.9'
-        open(image,'rb:binary') { |ff| data = ff.read }
-      else
-        open(image,'rb') { |ff| data = ff.read }
-      end
+      open(image, 'rb') { |ff| data = ff.read }
     end
 
     add_image(data, x, y, width, height, nil, link)
