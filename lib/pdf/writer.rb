@@ -1,4 +1,4 @@
-#encoding: ASCII-8BIT
+#encoding: WINDOWS-1252
 #--
 # PDF::Writer for Ruby.
 #   http://rubyforge.org/projects/ruby-pdf/
