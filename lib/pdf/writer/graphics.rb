@@ -1,3 +1,4 @@
+#encoding: ISO-8859-1
 #--
 # PDF::Writer for Ruby.
 #   http://rubyforge.org/projects/ruby-pdf/
@@ -543,7 +544,7 @@ module PDF::Writer::Graphics
     if image.respond_to?(:read)
       data = image.read
     else
-      open(image, 'rb') { |ff| data = ff.read }
+      open(image, 'r:ISO-8859-1:ISO-8859-1') { |ff| data = ff.read }
     end
 
     add_image(data, x, y, width, height, nil, link)
@@ -660,7 +661,7 @@ module PDF::Writer::Graphics
       if image.respond_to?(:read)
         image_data = image.read
       else
-        image_data = open(image, "rb") { |file| file.read }
+        image_data = open(image, "r:ISO-8859-1:ISO-8859-1") { |file| file.read }
       end
       info = PDF::Writer::Graphics::ImageInfo.new(image_data)
     end
