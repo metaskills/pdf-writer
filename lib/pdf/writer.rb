@@ -715,15 +715,16 @@ class PDF::Writer
 
     objects.each do |oo|
       begin
-        cont = oo.to_s
+        cont = oo.to_s.force_encoding("ISO-8859-1")
         content << cont
         xref << pos
         pos += cont.size
       rescue
-        puts '*' * 80
-        puts cont.inspect
-        puts cont.encoding.name
-        puts '*' * 80
+        # puts '*' * 80
+        # puts cont.inspect
+        # puts cont.encoding.name
+        # puts '*' * 80
+        raise
       end
     end
 
@@ -1039,8 +1040,6 @@ class PDF::Writer
 
     # add content to the currently active object
   def add_content(cc)
-    puts "add_content: #{cc.encoding.name}"
-    raise cc.inspect if cc.encoding.name == 'UTF-8'
     @current_contents << cc
   end
 
@@ -1620,7 +1619,6 @@ class PDF::Writer
     #
     # +justification+::   :left, :right, :center, or :full
   def add_text_wrap(x, y, width, text, size = nil, justification = :left, angle = 0, test = false)
-    raise 'wtf' if text =~ /Scottish/
     if text.kind_of?(Numeric) and size.kind_of?(String)
       text, size = size, text
       warn PDF::Writer::Lang[:add_textw_parameters_reversed] % caller[0]
