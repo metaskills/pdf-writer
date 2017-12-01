@@ -1,3 +1,4 @@
+#encoding: ISO-8859-1
 #--
 # PDF::Writer for Ruby.
 #   http://rubyforge.org/projects/ruby-pdf/
@@ -6,13 +7,12 @@
 #   Licensed under a MIT-style licence. See LICENCE in the main distribution
 #   for full licensing information.
 #
-# $Id$
+# $Id: writer.rb 202 2008-03-16 23:30:11Z sandal $
 #++
 require 'thread'
 require 'open-uri'
 
 require 'transaction/simple'
-require 'pdf/core_ext/mutex'
 require 'color'
 
   # A class to provide the core functionality to create a PDF document
@@ -20,7 +20,7 @@ require 'color'
 module PDF
   class Writer
       # The version of PDF::Writer.
-    VERSION = '1.2.0'
+    VERSION = '1.3.0'
 
       # Escape the text so that it's safe for insertion into the PDF
       # document.
@@ -710,14 +710,22 @@ class PDF::Writer
 
     xref = []
 
-    content = "%PDF-#{@version}\n%\303\242\303\243\303\217\303\223\n"
+    content = "%PDF-#{@version}\n%âãÏÓ\n"
     pos = content.size
 
     objects.each do |oo|
-      cont = oo.to_s
-      content << cont
-      xref << pos
-      pos += cont.size
+      begin
+        cont = oo.to_s.force_encoding("ISO-8859-1")
+        content << cont
+        xref << pos
+        pos += cont.size
+      rescue
+        # puts '*' * 80
+        # puts cont.inspect
+        # puts cont.encoding.name
+        # puts '*' * 80
+        raise
+      end
     end
 
 #   pos += 1 # Newline character before XREF
@@ -741,6 +749,10 @@ class PDF::Writer
   end
   alias :to_s :render
 
+  def render_to_file(filename)
+    IO.binwrite(filename, render)
+  end
+    
     # Loads the font metrics. This is now thread-safe.
   def load_font_metrics(font)
     metrics = PDF::Writer::FontMetrics.open(font)
@@ -1371,9 +1383,9 @@ class PDF::Writer
     end
 
     select_font("Helvetica") if @fonts.empty?
-
+    
     text = text.to_s
-
+    
       # If there are any open callbacks, then they should be called, to show
       # the start of the line
     @callbacks.reverse_each do |ii|
@@ -1467,11 +1479,11 @@ class PDF::Writer
   end
 
   def char_width(font, char)
-    if RUBY_VERSION >= '1.9'
-      char = char.bytes.to_a.first unless @fonts[font].c[char]
-    else
-      char = char[0] unless @fonts[font].c[char]
-    end
+     if RUBY_VERSION >= '1.9'
+       char = char.ord unless @fonts[font].c[char]
+     else
+       char = char[0] unless @fonts[font].c[char]
+     end
 
     if @fonts[font].differences and @fonts[font].c[char].nil?
       name = @fonts[font].differences[char] || 'M'

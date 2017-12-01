@@ -1,5 +1,11 @@
 = PDF::Writer Change Log
 
+== PDF::Writer 1.3.0: August 16, 2013
+* Ruby 2.0 compatibility.
+    o ImageInfo fixes encoding issue
+    o Writer fixes enumeration of String
+    o Fixed computation of font-width calculations
+    
 == PDF::Writer 1.2.1: May 13, 2009
 * Ruby 1.9 compatibility.
 
