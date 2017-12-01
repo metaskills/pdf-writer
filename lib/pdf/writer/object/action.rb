@@ -26,8 +26,9 @@ class PDF::Writer::Object::Action < PDF::Writer::Object
     if @type == :ilink
       res << "\n/S /GoTo\n/D #{@parent.destinations[@label].oid} 0 R"
     elsif @type == 'URI'
+      _label = @parent.arc4 ? @parent.arc4.encrypt(@label) : @label
       res << "\n/S /URI\n/URI ("
-      res << PDF::Writer.escape(@parent.arc4.encrypt(@label))
+      res << PDF::Writer.escape(_label)
       res << ")\n"
     end
     res << ">>\nendobj"

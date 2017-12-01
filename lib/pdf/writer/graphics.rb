@@ -1,3 +1,4 @@
+#encoding: ISO-8859-1
 #--
 # PDF::Writer for Ruby.
 #   http://rubyforge.org/projects/ruby-pdf/
@@ -6,7 +7,7 @@
 #   Licensed under a MIT-style licence. See LICENCE in the main distribution
 #   for full licensing information.
 #
-# $Id$
+# $Id: graphics.rb 166 2007-11-08 18:22:05Z sandal $
 #++
   # Points for use in the drawing of polygons.
 class PDF::Writer::PolygonPoint
@@ -543,11 +544,7 @@ module PDF::Writer::Graphics
     if image.respond_to?(:read)
       data = image.read
     else
-      if RUBY_VERSION >= '1.9'
-        open(image,'rb:binary') { |ff| data = ff.read }
-      else
-        open(image,'rb') { |ff| data = ff.read }
-      end
+      open(image, 'r:ISO-8859-1:ISO-8859-1') { |ff| data = ff.read }
     end
 
     add_image(data, x, y, width, height, nil, link)
@@ -664,7 +661,7 @@ module PDF::Writer::Graphics
       if image.respond_to?(:read)
         image_data = image.read
       else
-        image_data = open(image, "rb") { |file| file.read }
+        image_data = open(image, "r:ISO-8859-1:ISO-8859-1") { |file| file.read }
       end
       info = PDF::Writer::Graphics::ImageInfo.new(image_data)
     end
