@@ -1,3 +1,4 @@
+#encoding: ISO-8859-1
 #--
 # PDF::Writer for Ruby.
 #   http://rubyforge.org/projects/ruby-pdf/
@@ -9,7 +10,7 @@
 #   This file is also licensed under standard Ruby licensing provisions: the
 #   Ruby licence and the GNU General Public Licence, version 2 or later.
 #
-# $Id$
+# $Id: imageinfo.rb 173 2007-11-15 17:58:43Z sandal $
 #++
 require 'pdf/writer/oreader'
 
@@ -47,8 +48,8 @@ class PDF::Writer::Graphics::ImageInfo
     alias :type_list :formats
   end
 
-  JPEG_SOF_BLOCKS = %W(\xc0 \xc1 \xc2 \xc3 \xc5 \xc6 \xc7 \xc9 \xca \xcb \xcd \xce \xcf)
-  JPEG_APP_BLOCKS = %W(\xe0 \xe1 \xe2 \xe3 \xe4 \xe5 \xe6 \xe7 \xe8 \xe9 \xea \xeb \xec \xed \xee \xef)
+  JPEG_SOF_BLOCKS = %W(\xc0 \xc1 \xc2 \xc3 \xc5 \xc6 \xc7 \xc9 \xca \xcb \xcd \xce \xcf).map{|m| m.force_encoding("ISO-8859-1")}
+  JPEG_APP_BLOCKS = %W(\xe0 \xe1 \xe2 \xe3 \xe4 \xe5 \xe6 \xe7 \xe8 \xe9 \xea \xeb \xec \xed \xee \xef).map{|m| m.force_encoding("ISO-8859-1")}
 
     # Receive image & make size. argument is image String or IO
   def initialize(data, format = nil)
@@ -98,7 +99,7 @@ class PDF::Writer::Graphics::ImageInfo
   attr_reader :channels
 
   attr_reader :info
-
+  
   def discover_format
     if    @top        =~ %r{^GIF8[79]a}
       Formats::GIF
@@ -173,8 +174,12 @@ class PDF::Writer::Graphics::ImageInfo
     @data.read_o(2)   # Skip the first two bytes of JPEG identifier.
     loop do
       marker, code, length = @data.read_o(4).unpack('aan')
+      
+      marker.force_encoding("ISO-8859-1")
+      code.force_encoding("ISO-8859-1")
+      
       raise "JPEG marker not found!" if marker != c_marker
-
+      
       if JPEG_SOF_BLOCKS.include?(code)
         @bits, @height, @width, @channels = @data.read_o(6).unpack("CnnC")
         break
@@ -351,7 +356,7 @@ if __FILE__ == $0
 
   Dir.glob("*").each do |file|
     print "#{file} (string)\n"
-    open(file, "rb") do |fh|
+    open(file, "r:ISO-8859-1:ISO-8859-1") do |fh|
       image = PDF::Writer::Graphics::ImageInfo.new(fh.read)
 			print <<-EOF
 Format  : #{image.format}

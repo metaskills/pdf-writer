@@ -6,7 +6,7 @@
 #   Licensed under a MIT-style licence. See LICENCE in the main distribution
 #   for full licensing information.
 #
-# $Id$
+# $Id: fontmetrics.rb 168 2007-11-08 19:04:08Z sandal $
 #++
 
 class PDF::Writer::FontMetrics
@@ -78,7 +78,7 @@ class PDF::Writer::FontMetrics
         font = PDF::Writer::FontMetrics.new
 
           # An AFM file contains key names followed by valuees.
-        file.each_line do |line|
+        file.each do |line|
           line.chomp!
           line.strip!
           key, *values = line.split
@@ -152,7 +152,7 @@ class PDF::Writer::FontMetrics
               # C 39 ; WX 222 ; N quoteright ; B 53 463 157 718 ;
             bits = line.chomp.strip.split(/;/).collect { |r| r.strip }
             dtmp = {}
-
+            
             bits.each do |bit|
               b = bit.split
               if b.size > 2
