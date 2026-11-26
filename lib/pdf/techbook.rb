@@ -519,8 +519,8 @@ class PDF::TechBook < PDF::Writer
 
     @toc_title          = "Table of Contents"
     @gen_toc            = false
-    @techbook_code      = ""
-    @techbook_para      = ""
+    @techbook_code      = +""
+    @techbook_para      = +""
     @techbook_fontsize  = 12
     @techbook_textopt   = { :justification => :full }
     @techbook_lastmode  = @techbook_mode = :normal
@@ -701,7 +701,7 @@ class PDF::TechBook < PDF::Writer
     restore_state
     select_font @techbook_textfont, @techbook_encoding
 
-    @techbook_code = ""
+    @techbook_code = +""
     @techbook_mode, @techbook_lastmode = @techbook_lastmode, @techbook_mode
   end
 

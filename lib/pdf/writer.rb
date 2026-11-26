@@ -342,7 +342,7 @@ class PDF::Writer
     @stack                = []
     @state_stack          = StateStack.new
     @loose_objects        = []
-    @current_text_state   = ""
+    @current_text_state   = +""
     @options              = {}
     @destinations         = {}
     @add_loose_objects    = {}

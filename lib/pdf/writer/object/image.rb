@@ -199,8 +199,8 @@ class PDF::Writer::External::Image < PDF::Writer::External
 
       ok      = true
       length  = data.size
-      palette = ""
-      idat    = ""
+      palette = +""
+      idat    = +""
 
       while ok
         chunk_size  = data.read_o(4).unpack("N")[0]

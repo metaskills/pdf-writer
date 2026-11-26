@@ -49,7 +49,7 @@ class PDF::Writer::ARC4
     len = text.size
     a = b = 0
     c = @arc4.dup
-    out = ""
+    out = +""
 
     text.each_byte do |x|
       a = (a + 1) % 256

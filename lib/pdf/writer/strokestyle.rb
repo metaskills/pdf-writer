@@ -123,7 +123,7 @@ class PDF::Writer::StrokeStyle
   attr_accessor :dash
 
   def render(debug = false)
-    s = ""
+    s = +""
     s << "#{width} w" if @width > 0
     s << " #{LINE_CAPS[@cap]} J" if @cap
     s << " #{LINE_JOINS[@join]} j" if @join
