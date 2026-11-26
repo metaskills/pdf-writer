@@ -48,8 +48,8 @@ class PDF::Writer::Graphics::ImageInfo
     alias :type_list :formats
   end
 
-  JPEG_SOF_BLOCKS = %W(\xc0 \xc1 \xc2 \xc3 \xc5 \xc6 \xc7 \xc9 \xca \xcb \xcd \xce \xcf).map{|m| m.force_encoding("ISO-8859-1")}
-  JPEG_APP_BLOCKS = %W(\xe0 \xe1 \xe2 \xe3 \xe4 \xe5 \xe6 \xe7 \xe8 \xe9 \xea \xeb \xec \xed \xee \xef).map{|m| m.force_encoding("ISO-8859-1")}
+  JPEG_SOF_BLOCKS = %W(\xc0 \xc1 \xc2 \xc3 \xc5 \xc6 \xc7 \xc9 \xca \xcb \xcd \xce \xcf).map{|m| m.dup.force_encoding("ISO-8859-1")}
+  JPEG_APP_BLOCKS = %W(\xe0 \xe1 \xe2 \xe3 \xe4 \xe5 \xe6 \xe7 \xe8 \xe9 \xea \xeb \xec \xed \xee \xef).map{|m| m.dup.force_encoding("ISO-8859-1")}
 
     # Receive image & make size. argument is image String or IO
   def initialize(data, format = nil)
